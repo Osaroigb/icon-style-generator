@@ -1,0 +1,35 @@
+services:
+  # Backend API
+  - type: web
+    name: icon-generator-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: cd server && npm ci && npm run build
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: REPLICATE_API_TOKEN
+        sync: false
+      - key: TRUST_PROXY
+        value: "1"
+    healthCheckPath: /health
+
+  # Frontend
+  - type: web
+    name: icon-generator-frontend
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: cd client && npm ci && npm run build
+    staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: icon-generator-api
+          envVarKey: RENDER_EXTERNAL_URL
+

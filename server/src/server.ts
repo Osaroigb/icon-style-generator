@@ -8,6 +8,11 @@ import { isValidHex } from './utils/colorUtils';
 
 const app = express();
 
+// Trust proxy for rate limiting (needed for Render, Vercel)
+if (env.nodeEnv === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(cors());
 app.use(express.json({ limit: '10kb' }));
 
