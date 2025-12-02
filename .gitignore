@@ -134,6 +134,26 @@ dist
 !.yarn/sdks
 !.yarn/versions
 
-# Vite logs files
+# Vite log files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+context/
+
+# macOS system files
+.DS_Store
+
+# Frontend (Vite/React) build artifacts
+client/dist
+client/build
+client/.vite
+
+# Backend (Node/TypeScript) build artifacts
+server/dist
+server/build
+
+# Tooling and editor artifacts
+.idea/
+.vscode/
+.turbo/
+.vercel/
