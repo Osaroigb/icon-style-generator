@@ -30,7 +30,7 @@ describe('App Integration', () => {
 
   it('has Generate button disabled when prompt is empty', () => {
     render(<App />);
-    const generateButton = screen.getByText(/Generate Icons/i);
+    const generateButton = screen.getByRole('button', { name: /Generate Icons/i });
     expect(generateButton).toBeDisabled();
   });
 
@@ -40,7 +40,7 @@ describe('App Integration', () => {
     const input = screen.getByPlaceholderText(/Toys, Animals, Food/i);
     fireEvent.change(input, { target: { value: 'Toys' } });
     
-    const generateButton = screen.getByText(/Generate Icons/i);
+    const generateButton = screen.getByRole('button', { name: /Generate Icons/i });
     expect(generateButton).not.toBeDisabled();
   });
 
@@ -51,7 +51,7 @@ describe('App Integration', () => {
     const input = screen.getByPlaceholderText(/Toys, Animals, Food/i);
     fireEvent.change(input, { target: { value: '   ' } });
     
-    const generateButton = screen.getByText(/Generate Icons/i);
+    const generateButton = screen.getByRole('button', { name: /Generate Icons/i });
     // Button should be disabled for empty prompt
     expect(generateButton).toBeDisabled();
   });
@@ -63,12 +63,8 @@ describe('App Integration', () => {
     const longPrompt = 'a'.repeat(501);
     fireEvent.change(input, { target: { value: longPrompt } });
     
-    const generateButton = screen.getByText(/Generate Icons/i);
-    fireEvent.click(generateButton);
-    
-    await waitFor(() => {
-      expect(screen.getByText(/too long/i)).toBeInTheDocument();
-    });
+    // Error should appear immediately on change
+    expect(screen.getByText(/Prompt is too long \(max 500 characters\)/i)).toBeInTheDocument();
   });
 
   it('calls API and displays icons on success', async () => {
@@ -78,7 +74,7 @@ describe('App Integration', () => {
     const input = screen.getByPlaceholderText(/Toys, Animals, Food/i);
     fireEvent.change(input, { target: { value: 'Food' } });
     
-    const generateButton = screen.getByText(/Generate Icons/i);
+    const generateButton = screen.getByRole('button', { name: /Generate Icons/i });
     fireEvent.click(generateButton);
     
     await waitFor(() => {

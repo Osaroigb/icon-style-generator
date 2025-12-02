@@ -43,13 +43,10 @@ describe('ColorPicker', () => {
     const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'];
     render(<ColorPicker colors={colors} onChange={onChange} />);
     
-    const input = screen.getByPlaceholderText('#FF6B9D');
-    fireEvent.change(input, { target: { value: '#FFFFFF' } });
-    
+    // Button should be disabled when 5 colors are already added
     const addButton = screen.getByText(/Add Color/i);
-    fireEvent.click(addButton);
-    
-    expect(screen.getByText(/Maximum 5 colors/i)).toBeInTheDocument();
+    expect(addButton).toBeDisabled();
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('prevents duplicate colors', () => {

@@ -30,7 +30,7 @@ describe('Server Validation', () => {
       ];
 
       invalidRequests.forEach(req => {
-        const isValid = req.prompt && req.prompt.trim().length > 0;
+        const isValid = !!(req.prompt && req.prompt.trim().length > 0);
         expect(isValid).toBe(false);
       });
     });

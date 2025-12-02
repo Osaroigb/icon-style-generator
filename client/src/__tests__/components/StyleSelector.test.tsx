@@ -41,7 +41,7 @@ describe('StyleSelector', () => {
     render(<StyleSelector value={1} onChange={onChange} />);
     
     expect(screen.getByText(/Bold dark purple outlines/i)).toBeInTheDocument();
-    expect(screen.getByText(/Glossy 3D/i)).toBeInTheDocument();
+    expect(screen.getByText(/glossy 3D gradients, modern metallic appearance/i)).toBeInTheDocument();
   });
 });
 

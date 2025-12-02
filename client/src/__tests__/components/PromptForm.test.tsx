@@ -31,12 +31,13 @@ describe('PromptForm', () => {
   it('shows error when prompt is too long', () => {
     const onChange = vi.fn();
     const longPrompt = 'a'.repeat(501);
-    render(<PromptForm value={longPrompt} onChange={onChange} />);
+    // Start with empty value, then type long prompt to trigger validation
+    render(<PromptForm value="" onChange={onChange} />);
     
     const input = screen.getByPlaceholderText(/Toys, Animals, Food/i);
     fireEvent.change(input, { target: { value: longPrompt } });
     
-    expect(screen.getByText(/too long/i)).toBeInTheDocument();
+    expect(screen.getByText(/Prompt is too long \(max 500 characters\)/i)).toBeInTheDocument();
   });
 
   it('displays custom error prop', () => {
