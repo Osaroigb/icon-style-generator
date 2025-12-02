@@ -63,16 +63,17 @@ export async function generateIcons(options: GenerateIconsOptions): Promise<Gene
       throw new Error(`Expected 4 images, got ${output.length}`);
     }
 
-    // Extract and validate image URLs
-    const imageUrls = output.map((item, index) => {
-      const url = item.url();
+    // Extract image URLs from FileOutput objects
+    const imageUrls = output.map((item: any) => {
+      // FileOutput objects have a .url() method that returns a URL object
+      const urlObj = typeof item.url === 'function' ? item.url() : item;
       
-      if (!url || typeof url !== 'string' || !url.startsWith('http')) {
-        throw new Error(`Invalid image URL at index ${index}`);
-      }
-
+      // URL objects have .href property with the actual string URL
+      const url = typeof urlObj === 'object' && urlObj.href ? urlObj.href : String(urlObj);
       return url;
     });
+
+    console.log('Successfully generated 4 icons:', imageUrls);
 
     return {
       imageUrls,
